@@ -1,0 +1,18 @@
+.task, .reward, .completed {
+  float: left;
+  width: 25%;
+}
+.completed, .add{
+  float: left;
+  width: 15%;
+}
+.delete, .difficulty {
+  float: left;
+  width: 10%;
+}
+
+.task_row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
