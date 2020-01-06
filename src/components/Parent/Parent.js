@@ -30,7 +30,7 @@ export default class Parent extends Component {
       parent.email,
       config.REACT_APP_EMAILJS_RECEIVER,
       config.REACT_APP_EMAILJS_USERID,
-      `http://localhost:3000/parent/${parent.id}`,
+      `https://allowance-app.enguyen89141.now.sh/parent/${parent.id}`,
       email_to.value,
       parent.first_name
     )

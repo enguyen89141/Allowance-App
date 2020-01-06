@@ -38,7 +38,7 @@ export default class SignUpPage extends Component {
           })
             .then(res => {
               this.setState({
-                link: `http://localhost:3000/parent/${res.id}`
+                link: `https://allowance-app.enguyen89141.now.sh/parent/${res.id}`
               })
               this.sendFeedback(
                 config.REACT_APP_EMAILJS_TEMPLATEID,
