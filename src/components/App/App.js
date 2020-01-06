@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import LandingPage from '../../routes/LandingPage/LandingPage'
 import Header from '../Header/Header'
-import AllowanceGiverPage from '../../routes/AllowanceGiverPage/AllowanceGiverPage'
 import SignUpPage from '../../routes/SignUpPage/SignUpPage';
-import AllowanceReceiverPage from '../../routes/AllowanceReceiverPage/AllowanceReceiverPage';
+import PublicRoute from '../Utils/PublicRoute'
+import PrivateRoute from '../Utils/PrivateRoute'
+import LoginPage from '../../routes/LoginPage/LoginPage'
+import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage'
+import HomePage from '../../routes/Home/Home'
+import ConfirmationPage from '../../routes/ConfirmationPage/ConfirmationPage'
+import ChildSignUpPage from '../../routes/ChildSignUpPage/ChildSignUpPage'
 
 export default class App extends Component {
   state = { hasError: false }
@@ -18,30 +23,42 @@ export default class App extends Component {
     return (
       <div className="main">
         <header>
-        <Header />
-      </header>
-      <main>
-        {this.state.hasError && <p className='red'>There was an error! Oh no!</p>}
-        <Switch>
-          <Route
-            exact
-            path={'/'}
-            component={LandingPage}
+          <Header />
+        </header>
+        <main>
+
+          {this.state.hasError && <p className='red'>There was an error! Oh no!</p>}
+          <Switch>
+            <PrivateRoute
+              path={'/home'}
+              component={HomePage}
             />
-          <Route
-            path={'/allowancegiver'}
-            component={AllowanceGiverPage}
+            <PublicRoute
+              path={'/confirm'}
+              component={ConfirmationPage}
             />
-          <Route
-            path={'/signup'}
-            component={SignUpPage}
+            <PublicRoute
+              path={'/login'}
+              component={LoginPage}
             />
-          <Route
-            path={'/allowancereceiver'}
-            component={AllowanceReceiverPage}
+            <PublicRoute
+              path={'/parent/:parent_id'}
+              component={ChildSignUpPage}
             />
-        </Switch>
-      </main>
+            <PublicRoute
+              exact
+              path={'/'}
+              component={LandingPage}
+            />
+            <PublicRoute
+              path={'/signup'}
+              component={SignUpPage}
+            />
+            <Route
+              component={NotFoundPage}
+            />
+          </Switch>
+        </main>
       </div>
     )
   }
