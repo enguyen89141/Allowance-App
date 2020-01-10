@@ -11,18 +11,27 @@ export default class TaskList extends Component {
     name: '',
     difficulty: '',
     error: null,
+    tasks: []
   }
-  handleChildUpdate(e, task_id) {
+  handleChildUpdate(e, task, index) {
     e.preventDefault()
-    AllowanceApiService.updateTaskForChild(task_id, 'pending')
+    AllowanceApiService.updateTaskForChild(task, 'pending', index)
+    let tasksToUpdate = this.state.tasks
+    tasksToUpdate[index].current_status = 'pending'
+    this.setState({ tasks: tasksToUpdate })
   }
-  handleParentUpdate(e, task_id) {
+  handleParentUpdate(e, task, index) {
     e.preventDefault()
-    AllowanceApiService.updateTaskForChild(task_id, 'completed')
+    AllowanceApiService.updateTaskForChild(task, 'completed')
+    let tasksToUpdate = this.state.tasks
+    tasksToUpdate[index].current_status = 'completed'
+    this.setState({ tasks: tasksToUpdate })
   }
-  handleDelete(e, task_id) {
+  handleDelete(e, task) {
     e.preventDefault()
-    AllowanceApiService.deleteTask(task_id)
+    AllowanceApiService.deleteTask(task.id)
+    let tasksToUpdate = this.state.tasks.filter(i => i.id !== task.id)
+    this.setState({ tasks: tasksToUpdate })
   }
   handleChange(e) {
     this.setState({
@@ -54,39 +63,45 @@ export default class TaskList extends Component {
     }
   }
   renderTaskListForChild() {
-    const { tasks = [] } = this.context
-    return <div>
-      {tasks.map(task => {
-        return task.current_status === 'open' ?
-          <>
-            <p>Task: {task.name}</p>
-            <p>Difficulty: {task.difficulty}</p>
-            <p>Reward: ${task.reward}</p>
-            <p>Current Status: {task.current_status} <button onClick={e => this.handleChildUpdate(e, task.id)}>Update to pending!</button> </p>
-          </>
-          :
-          <>
-            <p>Task: {task.name}</p>
-            <p>Difficulty: {task.difficulty}</p>
-            <p>Reward: ${task.reward}</p>
-            <p>Current Status: {task.current_status} </p>
-          </>
-      }
-      )}
-    </div>
+    const { tasks = [] } = this.state
+    if (tasks.length === 0) {
+      return <div>
+        <h2>Currently waiting on tasks to be added!</h2>
+      </div>
+    } else {
+      return <div>
+        {tasks.map((task, index) => {
+          return task.current_status === 'open' ?
+            <>
+              <p>Task: {task.name}</p>
+              <p>Difficulty: {task.difficulty}</p>
+              <p>Reward: ${task.reward}</p>
+              <p>Current Status: {task.current_status} <button onClick={e => this.handleChildUpdate(e, task, index)}>Update to pending!</button> </p>
+            </>
+            :
+            <>
+              <p>Task: {task.name}</p>
+              <p>Difficulty: {task.difficulty}</p>
+              <p>Reward: ${task.reward}</p>
+              <p>Current Status: {task.current_status} </p>
+            </>
+        }
+        )}
+      </div>
+    }
   }
   renderTaskListForParent() {
     const { error } = this.state
-    const { tasks = [] } = this.context
+    const { tasks = [] } = this.state
     return <div>
-      {tasks.map(task => {
+      {tasks.map((task, index) => {
         return task.current_status === 'pending' ?
           <>
             <p>Task: {task.name}</p>
             <p>Difficulty: {task.difficulty}</p>
             <p>Reward: ${task.reward}</p>
-            <p>Current Status: {task.current_status} <button onClick={e => this.handleParentUpdate(e, task.id)}>Update to completed!</button> </p>
-            <button onClick={e => this.handleDelete(e, task.id)}>Delete</button>
+            <p>Current Status: {task.current_status} <button onClick={e => this.handleParentUpdate(e, task, index)}>Update to completed!</button> </p>
+            <button onClick={e => this.handleDelete(e, task, index)}>Delete</button>
           </>
           :
           <>
@@ -94,7 +109,7 @@ export default class TaskList extends Component {
             <p>Difficulty: {task.difficulty}</p>
             <p>Reward: ${task.reward}</p>
             <p>Current Status: {task.current_status} </p>
-            <button onClick={e => this.handleDelete(e, task.id)}>Delete</button>
+            <button onClick={e => this.handleDelete(e, task, index)}>Delete</button>
           </>
       }
       )}
@@ -126,16 +141,12 @@ export default class TaskList extends Component {
 
   }
   componentDidUpdate(prevProps) {
-    if (this.props.child_id !== prevProps.child_id || this.props.tasks !== prevProps.tasks) {
+    if (this.props.child_id !== prevProps.child_id || this.props.tasks !== prevProps.tasks || this.props.taskList !== prevProps.taskList) {
       const child_id = this.props.child_id
       AllowanceApiService.getTasksForChild(child_id)
-        .then(this.context.setTasks)
-        .catch(this.context.setError)
-      this.renderTaskListForParent()
-    } else if (this.props.taskList !== prevProps.taskList) {
-      const child_id = this.props.child_id
-      AllowanceApiService.getTasksForChild(child_id)
-        .then(this.context.setTasks)
+        .then(tasks => {
+          this.setState({ tasks })
+        })
         .catch(this.context.setError)
       this.renderTaskListForParent()
     }
@@ -143,7 +154,9 @@ export default class TaskList extends Component {
   componentDidMount() {
     const { child_id } = this.props
     AllowanceApiService.getTasksForChild(child_id)
-      .then(this.context.setTasks)
+      .then(tasks => {
+        this.setState({ tasks })
+      })
       .catch(this.context.setError)
   }
   render() {

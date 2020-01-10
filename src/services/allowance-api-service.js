@@ -90,8 +90,8 @@ const AllowanceApiService = {
           : res.json()
       )
   },
-  updateTaskForChild(task_id, newStatus) {
-    return fetch(`${config.API_BASE_URL}/tasks/${task_id}`, {
+  updateTaskForChild(task, newStatus) {
+    return fetch(`${config.API_BASE_URL}/tasks/${task.id}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `bearer ${TokenService.getAuthToken()}`,

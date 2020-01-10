@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import AllowanceContext from '../../contexts/AllowanceContext'
 import AllowanceApiService from '../../services/allowance-api-service'
 import config from '../../config'
-//CHANGE LOCALHOST TO ZEITWEBPAGE URL
 export default class SignUpPage extends Component {
   static contextType = AllowanceContext
 

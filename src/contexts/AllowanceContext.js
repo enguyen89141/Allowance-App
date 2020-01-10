@@ -85,7 +85,7 @@ export class AllowanceProvider extends Component {
       setTasks: this.setTasks,
       tasks: this.state.tasks,
       addTask: this.addTask,
-      clearTasks: this.clearTasks
+      clearTasks: this.clearTasks,
     }
     return (
       <AllowanceContext.Provider value={value}>
