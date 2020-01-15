@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 
 const AllowanceContext = React.createContext({
   error: null,
-  child: null,
-  parent: null,
-  children: null,
+  child: '',
+  parent: '',
+  children: '',
   tasks: [],
   setError: () => {},
   clearError: () => {},
@@ -17,6 +17,7 @@ const AllowanceContext = React.createContext({
   setTasks: () => {},
   clearTasks: () => {},
   addTask: () => {},
+  clearChild: () => {}
 })
 
 export default AllowanceContext
@@ -25,7 +26,7 @@ export class AllowanceProvider extends Component {
   state = {
     error: null,
     child: null,
-    parent: null,
+    parent: '',
     children: null,
     tasks: []
   }

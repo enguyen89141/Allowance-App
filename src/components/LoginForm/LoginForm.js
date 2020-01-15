@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import TokenService from '../../services/token-service'
 import AuthApiService from '../../services/auth-api-service'
 import AllowanceContext from '../../contexts/AllowanceContext'
 import AllowanceApiService from '../../services/allowance-api-service'
+import TokenService from '../../services/token-service'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './LoginForm.css'
+
+
 export default class LoginForm extends Component {
   static contextType = AllowanceContext
 
@@ -26,8 +30,8 @@ export default class LoginForm extends Component {
       .then(res => {
         username.value = ''
         password.value = ''
-        TokenService.saveAuthToken(res.authToken)
         AllowanceApiService.saveAccountAndLoginId(res.account, res.login_id)
+        TokenService.saveAuthToken(res.authToken)
         this.props.onLoginSuccess()
         })
       .catch(res => {
@@ -65,6 +69,8 @@ export default class LoginForm extends Component {
         </div>
         <div className="button">
           <button type='submit'>
+          <FontAwesomeIcon icon='sign-in-alt' />
+          {' '}
             Login
         </button>
         </div>

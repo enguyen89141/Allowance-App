@@ -66,8 +66,8 @@ const AllowanceApiService = {
           : res.json()
       )
   },
-  getChildrenForParent(parent_id) {
-    return fetch(`${config.API_BASE_URL}/parents/${parent_id}/children`, {
+  getChildrenForParent(parent) {
+    return fetch(`${config.API_BASE_URL}/parents/${parent.id}/children`, {
       headers: {
         'Authorization': `bearer ${TokenService.getAuthToken()}`,
       },

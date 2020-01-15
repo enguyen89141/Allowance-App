@@ -11,9 +11,9 @@ export default class ChildList extends Component {
   }
 
   componentDidMount() {
-    const parent_id = this.context.parent.id
+    const { parent } = this.context
     this.context.clearError()
-    AllowanceApiService.getChildrenForParent(parent_id)
+    AllowanceApiService.getChildrenForParent(parent)
       .then(this.context.setChildren)
       .catch(this.context.setError)
   }
@@ -33,11 +33,11 @@ export default class ChildList extends Component {
       </>
     } else {
       return <div>
-        <p>Task list for: </p>
+        <span>Task list for: </span>
         <select
           value={this.state.selectedChild}
           onChange={(e) => this.setState({ selectedChild: e.target.value })}>
-          <option value={''}>Please select the person receiving the allowance: </option>
+          <option value={''}>Please select a person: </option>
           {child.map(child =>
             <option key={child.value} value={child.id}>{child.first_name + ' ' + child.last_name}</option>)}
         </select>

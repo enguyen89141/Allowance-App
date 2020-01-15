@@ -10,6 +10,7 @@ import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage'
 import HomePage from '../../routes/Home/Home'
 import ConfirmationPage from '../../routes/ConfirmationPage/ConfirmationPage'
 import ChildSignUpPage from '../../routes/ChildSignUpPage/ChildSignUpPage'
+import './App.css'
 
 export default class App extends Component {
   state = { hasError: false }
@@ -18,7 +19,6 @@ export default class App extends Component {
     console.error(error)
     return { hasError: true }
   }
-
   render() {
     return (
       <div className="main">

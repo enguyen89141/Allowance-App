@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LoginForm from '../../components/LoginForm/LoginForm'
+import './LoginPage.css'
 
 export default class LoginPage extends Component {
   static defaultProps = {
@@ -18,7 +19,6 @@ export default class LoginPage extends Component {
   render() {
     return (
       <div className="login">
-        <h2>Please log in to continue or select sign up from above.</h2>
         <LoginForm
           onLoginSuccess={this.handleLoginSuccess}
         />

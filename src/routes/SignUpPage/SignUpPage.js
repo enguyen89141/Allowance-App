@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import AllowanceContext from '../../contexts/AllowanceContext'
 import AllowanceApiService from '../../services/allowance-api-service'
 import config from '../../config'
+import './SignUpPage.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 export default class SignUpPage extends Component {
   static contextType = AllowanceContext
 
@@ -74,7 +77,7 @@ export default class SignUpPage extends Component {
   render() {
     const { error } = this.state
     return (
-      <div className='container'>
+      <div className='signup'>
         <form onSubmit={this.handleSubmit}>
           <div role='alert'>
             {error && <p className='red'>{error}</p>}
@@ -138,7 +141,7 @@ export default class SignUpPage extends Component {
           </div>
           <div>
             <label htmlFor='SignUp_receiver_email'>
-              Email address of the person receiving the allowance:
+              Email of allowance recipient:
           </label>
             <input
               required
@@ -146,8 +149,8 @@ export default class SignUpPage extends Component {
               name='email_to'
               id='SignUp_receiver_email' />
           </div>
-          <div>
-            <button>Sign up!</button>
+          <div className="button">
+            <button className="sign_up_button"><FontAwesomeIcon icon="user-plus" />{' '}Sign up!</button>
           </div>
         </form>
       </div>

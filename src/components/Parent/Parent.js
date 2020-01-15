@@ -3,6 +3,7 @@ import AllowanceContext from '../../contexts/AllowanceContext'
 import AllowanceApiService from '../../services/allowance-api-service'
 import ChildList from '../ChildList/ChildList'
 import config from '../../config'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 export default class Parent extends Component {
@@ -72,7 +73,8 @@ export default class Parent extends Component {
                 type='email'
                 name='email_to'
                 id='Receiver_email' />
-              <button>Send email!</button>
+                <br />
+              <button>Send email <FontAwesomeIcon icon="paper-plane" /></button>
               {emailSent ?
                 <p>Email has been sent!</p>
                 : null }

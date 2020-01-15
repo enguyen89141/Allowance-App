@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import AllowanceContext from '../../contexts/AllowanceContext'
 import AllowanceApiService from '../../services/allowance-api-service'
-// need to solve issue with chaing taskslists 
-// possibly use a setTimeout and pass it as a prop 
-// https://stackoverflow.com/questions/30803440/delayed-rendering-of-react-components
-// or look into promises as a way to resolve
+import './TaskList.css'
+
 export default class TaskList extends Component {
   static contextType = AllowanceContext
   state = {
@@ -69,61 +67,77 @@ export default class TaskList extends Component {
         <h2>Currently waiting on tasks to be added!</h2>
       </div>
     } else {
-      return <div>
-        {tasks.map((task, index) => {
-          return task.current_status === 'open' ?
-            <>
-              <p>Task: {task.name}</p>
-              <p>Difficulty: {task.difficulty}</p>
-              <p>Reward: ${task.reward}</p>
-              <p>Current Status: {task.current_status} <button onClick={e => this.handleChildUpdate(e, task, index)}>Update to pending!</button> </p>
-            </>
-            :
-            <>
-              <p>Task: {task.name}</p>
-              <p>Difficulty: {task.difficulty}</p>
-              <p>Reward: ${task.reward}</p>
-              <p>Current Status: {task.current_status} </p>
-            </>
-        }
-        )}
-      </div>
+      return <>
+        <h4>Your tasks include:</h4>
+        <div className='task_grid_child'>
+          <div>Task Name</div>
+          <div>Difficulty</div>
+          <div>Reward</div>
+          <div>Status</div>
+          {tasks.map((task, index) => {
+            return task.current_status === 'open' ?
+              <>
+                <div className={task.current_status}>{task.name}</div>
+                <div className={task.current_status}>{task.difficulty}</div>
+                <div className={task.current_status}>${task.reward}</div>
+                <div className={task.current_status}>{task.current_status} <button className="status" onClick={e => this.handleChildUpdate(e, task, index)}>Update!</button> </div>
+              </>
+              :
+              <>
+                <div className={task.current_status}>{task.name}</div>
+                <div className={task.current_status}>{task.difficulty}</div>
+                <div className={task.current_status}>${task.reward}</div>
+                <div className={task.current_status}>{task.current_status} </div>
+              </>
+          }
+          )}
+        </div>
+      </>
     }
   }
   renderTaskListForParent() {
     const { error } = this.state
     const { tasks = [] } = this.state
-    return <div>
-      {tasks.map((task, index) => {
-        return task.current_status === 'pending' ?
-          <>
-            <p>Task: {task.name}</p>
-            <p>Difficulty: {task.difficulty}</p>
-            <p>Reward: ${task.reward}</p>
-            <p>Current Status: {task.current_status} <button onClick={e => this.handleParentUpdate(e, task, index)}>Update to completed!</button> </p>
-            <button onClick={e => this.handleDelete(e, task, index)}>Delete</button>
-          </>
-          :
-          <>
-            <p>Task: {task.name}</p>
-            <p>Difficulty: {task.difficulty}</p>
-            <p>Reward: ${task.reward}</p>
-            <p>Current Status: {task.current_status} </p>
-            <button onClick={e => this.handleDelete(e, task, index)}>Delete</button>
-          </>
-      }
-      )}
+    return <>
+      <div className='task_grid_parent'>
+        <div>Task Name</div>
+        <div>Difficulty</div>
+        <div>Reward</div>
+        <div>Status</div>
+        <div></div>
+        {tasks.map((task, index) => {
+          return task.current_status === 'pending' ?
+            <>
+              <div className={task.current_status}>{task.name}</div>
+              <div className={task.current_status}>{task.difficulty}</div>
+              <div className={task.current_status}>${task.reward}</div>
+              <div className={task.current_status}><button className="status" onClick={e => this.handleParentUpdate(e, task, index)}>Update!</button>{task.current_status}</div>
+              <div className={task.current_status}><button className="delete" onClick={e => this.handleDelete(e, task, index)}>Delete</button></div>
+            </>
+            :
+            <>
+              <div className={task.current_status}>{task.name}</div>
+              <div className={task.current_status}>{task.difficulty}</div>
+              <div className={task.current_status}>{task.reward}</div>
+              <div className={task.current_status}>{task.current_status} </div>
+              <div className={task.current_status}><button className="delete" onClick={e => this.handleDelete(e, task, index)}>Delete</button></div>
+            </>
+        }
+        )}
+      </div>
       <form onSubmit={e => this.handleSubmit(e)}>
         <h3>Add a new task!</h3>
         <div role='alert'>
           {error && <p className='red'>{error}</p>}
         </div>
-        <label>Name:</label>
-        <input
-          name="name"
-          value={this.state.name}
-          onChange={e => this.handleChange(e)} />
-        <label>Difficulty:</label>
+        <label>Name</label>
+        <div className="add_task_input">
+          <input
+            name="name"
+            value={this.state.name}
+            onChange={e => this.handleChange(e)} />
+        </div>
+        <label>Difficulty</label>
         <select
           value={this.state.difficulty}
           onChange={e => this.setState({ difficulty: e.target.value })}>
@@ -137,7 +151,7 @@ export default class TaskList extends Component {
         <label>Reward: ${this.state.difficulty && this.state.difficulty * 2}</label>
         <button type="submit">Add</button>
       </form>
-    </div>
+    </>
 
   }
   componentDidUpdate(prevProps) {
@@ -168,9 +182,9 @@ export default class TaskList extends Component {
       content = this.renderTaskListForChild()
     }
     return (
-      <>
+      <div>
         {content}
-      </>
+      </div>
     )
   }
 }

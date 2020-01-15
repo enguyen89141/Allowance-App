@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+
+h2 {
+  font-family: 'Source Code Pro'
+}
+
+
+.signup {
+  border: 1px solid black;
+  margin: 20px;
+  padding: 20px;
+}
+
+label, button {
+  font-family: 'Source Code Pro';
+}
+
+.button {
+  text-align: center;
+  padding: 10px;
+  clear: both;
+}
+
+.sign_up_button {
+  width: 100px;
+}
+
+label, input {
+  display: block;
+  margin: auto;
+}
