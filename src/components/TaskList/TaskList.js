@@ -111,7 +111,7 @@ export default class TaskList extends Component {
               <div className={task.current_status}>{task.name}</div>
               <div className={task.current_status}>{task.difficulty}</div>
               <div className={task.current_status}>${task.reward}</div>
-              <div className={task.current_status}><button className="status" onClick={e => this.handleParentUpdate(e, task, index)}>Update!</button>{task.current_status}</div>
+              <div className={task.current_status}>{task.current_status + ' '}<button className="status" onClick={e => this.handleParentUpdate(e, task, index)}>Update</button></div>
               <div className={task.current_status}><button className="delete" onClick={e => this.handleDelete(e, task, index)}>Delete</button></div>
             </>
             :
