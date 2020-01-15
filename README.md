@@ -13,10 +13,10 @@
 
 ### Screenshots
 1. Welcome page <br>
-<img src="./src/screenshots/landingPage.png" alt="landing page"> 
-2. Login page <br>
-<img src="./src/screenshots/login.png" alt="login page"> 
-3. Deals page <br>
-<img src="./src/screenshots/deals.png" alt="deals page"> 
-4. Details page <br>
-<img src="./src/screenshots/details.png" alt="details page"> 
+<img src="./src/screenshots/LandingPage.png" alt="landing page"> 
+2. Sign up page <br>
+<img src="./src/screenshots/SignUpPage.png" alt="sign up page"> 
+3. Parents task list page <br>
+<img src="./src/screenshots/ParentTaskList.png" alt="parent task list page"> 
+4. Child task list page <br>
+<img src="./src/screenshots/ChildTaskList.png" alt="child task list page"> 
